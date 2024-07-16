@@ -1,0 +1,26 @@
+### Publicar foto de un usuario
+POST http://localhost:9999/foto/subir
+Content-Type: application/json
+
+{
+  "propietarioId": 1,
+  "descripcion": "Una foto de prueba",
+  "ubicacion": "Algún lugar",
+  "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+  "hashtags": [
+    "colocolo",
+    "curico",
+    "borish",
+    "maule"
+  ]
+}
+
+
+### Obtener todos las fotos
+GET http://localhost:9999/foto/no-ocultadas/1
+
+### Obtener todos las fotos
+GET http://localhost:9999/foto
+
+### Obtener foto por ID
+GET http://localhost:9999/foto/1

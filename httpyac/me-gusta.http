@@ -1,0 +1,38 @@
+### Registrar me gusta
+POST http://localhost:9999/me-gusta/registrar
+Content-Type: application/json
+
+{
+  "interactuadorId": 7,
+  "fotoId": 18
+}
+
+### Eliminar me gusta
+DELETE http://localhost:9999/me-gusta/eliminar
+Content-Type: application/json
+
+{
+  "interactuadorId": 7,
+  "fotoId": 18
+}
+
+### Me gusta que me han dado por id
+GET http://localhost:9999/me-gusta/me-gusta-que-me-han-dado/1
+Content-Type: application/json
+
+### Cantidad de gusta que me han dado por id
+GET http://localhost:9999/me-gusta/cantidad-de-me-gusta-no-ocultos/1
+Content-Type: application/json
+
+### Ocultar me gusta por meGustaId
+PATCH http://localhost:9999/me-gusta/ocultar-me-gusta/18
+Content-Type: application/json
+
+### usuario dio me gusta
+GET http://localhost:9999/me-gusta/saber-si-usuario-dio-like-a-una-foto
+Content-Type: application/json
+
+{
+  "interactuadorId":7,
+  "fotoId": 18
+}

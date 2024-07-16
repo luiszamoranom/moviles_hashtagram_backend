@@ -1,0 +1,8 @@
+### Publicar foto de un usuario
+POST http://localhost:9999/usuarioviofoto/ocultar-foto
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "fotoId": 16
+}

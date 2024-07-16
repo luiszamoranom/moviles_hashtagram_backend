@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id             Int              @id @default(autoincrement())
+  nombreCompleto String           @db.VarChar(20)
+  nombreUsuario  String           @unique @db.VarChar(20)
+  descripcion    String?          @db.VarChar(100)
+  email          String           @unique @db.VarChar(50)
+  contrasena     String           @db.VarChar(200)
+  fotoPerfil     String?
+  fotoExtension  String?          @db.VarChar(4)
+  habilitado     Boolean          @default(true)
+  rol            String           @default("usuario") @db.VarChar(50)
+  createAt       DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
+  fotos          Foto[]
+  meGusta        MeGusta[]
+  usuarioVioFoto UsuarioVioFoto[]
+}
+
+model UsuarioVioFoto {
+  id         Int      @id @default(autoincrement())
+  usuarioId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  fotoId     Int
+  foto       Foto     @relation(fields: [fotoId], references: [id])
+  habilitado Boolean  @default(false)
+  createAt   DateTime @default(now()) @db.Timestamptz
+
+  @@unique([usuarioId, fotoId])
+}
+
+model Foto {
+  id             Int              @id @default(autoincrement())
+  propietarioId  Int
+  cantidad       Int              @default(0)
+  descripcion    String?          @db.VarChar(50)
+  ubicacion      String           @db.VarChar(30)
+  base64         String?
+  propietario    Usuario          @relation(fields: [propietarioId], references: [id])
+  hashtags       HashtagFoto[]
+  meGusta        MeGusta[]
+  createAt       DateTime         @default(now()) @db.Timestamptz
+  updatedAt      DateTime         @default(now()) @db.Timestamptz
+  usuarioVioFoto UsuarioVioFoto[]
+}
+
+model Hashtag {
+  id       Int           @id @default(autoincrement())
+  etiqueta String        @unique @db.VarChar(10)
+  fotos    HashtagFoto[]
+}
+
+model HashtagFoto {
+  id        Int     @id @default(autoincrement())
+  fotoId    Int
+  hashtagId Int
+  foto      Foto    @relation(fields: [fotoId], references: [id])
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [id])
+
+  @@unique([fotoId, hashtagId])
+}
+
+model MeGusta {
+  id              Int     @id @default(autoincrement())
+  interactuadorId Int
+  fotoId          Int
+  foto            Foto    @relation(fields: [fotoId], references: [id])
+  interactuador   Usuario @relation(fields: [interactuadorId], references: [id])
+  ocultado        Boolean @default(false)
+  createAt        DateTime         @default(now()) @db.Timestamptz
+
+  @@unique([interactuadorId, fotoId])
+}
